@@ -1,0 +1,175 @@
+// Simple material design css framework (unfortunately based on floats)
+@import "muicss/lib/sass/mui";
+
+$demo-primary: #2196f3;
+$demo-dander:  #f44336;
+$demo-success: #00c853;
+$demo-grey:  rgba(0, 0, 0, 0.54);
+$demo-grey-light:  rgba(0, 0, 0, 0.26);
+
+//==============================================================================
+// Just some temporary (for demo) overrides (unacceptable in real project)
+//==============================================================================
+body {
+  background-color: #e6e6e6;
+}
+.mui-textfield.mui-textfield--float-label > label {
+  transition: all 0.15s ease-out;
+}
+.mui-page-title {
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+.validation-message, .Mui-error.MuiFormHelperText-root {
+  font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  margin-top: 5px;
+  border-color: $demo-dander;
+}
+
+// Autocomplete
+.mui-textfield.mui-textfield--float-label,
+.mui-select {
+  .mui--is-not-empty {
+    border-width: 2px;
+    border-color: $demo-dander;
+    height: calc(32px + 1px);
+    margin-bottom: -1px;
+  }
+}
+.MuiInputBase-root {
+  border-bottom: 1px solid $demo-grey-light!important;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNiIgd2lkdGg9IjEwIj48cG9seWdvbiBwb2ludHM9IjAsMCAxMCwwIDUsNiIgc3R5bGU9ImZpbGw6cmdiYSgwLDAsMCwuMjQpOyIvPjwvc3ZnPg==");
+  background-repeat: no-repeat;
+  background-position: right center;
+
+  .MuiInputBase-input {
+    font-size: 16px;
+  }
+
+  &.Mui-focused {
+    border-color: $demo-primary !important;
+    border-bottom-width: 2px !important;
+
+    .MuiInputLabel-shrink.MuiInputLabel-root {
+      color: $demo-primary !important;
+    }
+  }
+
+  &.Mui-error {
+    border-color: $demo-dander !important;
+    border-bottom-width: 2px !important;
+  }
+  
+}
+
+.MuiInputLabel-root.MuiInputLabel-shrink.Mui-focused {
+  color: $demo-primary!important;
+}
+
+
+.Mui-error {
+  .MuiInput-root {
+    border-color: $demo-dander !important;
+    border-bottom-width: 2px !important;
+  }
+  .MuiInputLabel-animated {
+    color: $demo-grey !important;
+    transform: translate(0, 1.5px) scale(0.75);
+    transform-origin: top left;
+  }
+} 
+
+.MuiFormLabel-root {
+  top: -15px !important;
+  font-size: 16px !important;
+  color: $demo-grey-light !important;
+}
+.MuiInputBase-root {
+  margin-top: 0 !important;
+}
+.MuiInput-underline:before,
+.MuiInput-underline:after,
+.MuiAutocomplete-endAdornment {
+  display: none;
+}
+.MuiAutocomplete-popper li {
+  font-size: 16px !important;
+}
+
+// Radio
+.mui-radio {
+  .MuiFormGroup-root {
+    flex-direction: row;
+
+    &.error {
+      .MuiRadio-root {
+        color: $demo-dander;
+      }
+    }
+  }
+  .MuiRadio-root.Mui-checked{
+    color: $demo-primary;
+  }
+  .MuiTypography-root {
+    font-size: 16px;
+  }
+  .MuiFormControlLabel-root {
+    margin-bottom: 0;
+  }
+  .MuiFormLabel-root {
+    font-size: 12px !important;
+    padding-top: 15px;
+    color: $demo-grey !important;
+
+    &.MuiInputLabel-animated {
+      padding-top: 0;
+    }
+  }
+  .MuiSvgIcon-root {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Date 
+.mui-picker {
+  .MuiIconButton-root {
+    margin-right: -13px;
+  }
+  .MuiInputBase-root {
+    background-image: none;
+  }
+  .MuiInputLabel-shrink {
+    //font-size: 14px!important;
+  }
+  .MuiFormLabel-root {
+    color: $demo-grey !important;
+  }
+}
+.MuiTypography-caption {
+  font-size: 16px!important;
+}
+.MuiTypography-body1 {
+  font-size: 15px!important;
+}
+.MuiTypography-body2 {
+  font-size: 14px!important;
+}
+.MuiPopover-paper .MuiSvgIcon-root {
+  width: 25px;
+  height: 25px;
+}
+.MuiPickersDay-daySelected {
+  background-color: $demo-primary!important;
+}
+
+// Form info 
+.submit-message {
+  color: $demo-success;
+  background: rgba($demo-success, 0.1);
+  padding: 10px 10px;
+  border-radius: 3px;
+  text-align: center;
+}
