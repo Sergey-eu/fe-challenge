@@ -13,6 +13,9 @@ $demo-grey-light:  rgba(0, 0, 0, 0.26);
 body {
   background-color: #e6e6e6;
 }
+.mui-panel {
+  padding-top: 25px;
+}
 .mui-textfield.mui-textfield--float-label > label {
   transition: all 0.15s ease-out;
 }

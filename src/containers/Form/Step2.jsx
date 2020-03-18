@@ -1,18 +1,23 @@
 import React, { useEffect } from "react";
 
-const Step2 = ({ setFormSteps, formSteps }) => {
+const Step2 = (props) => {
+
+  const {
+    setFormSteps: setFormSteps, 
+    formSteps: formSteps, 
+    children: children
+  } = props;
+
   useEffect(() => {
     setFormSteps({
       ...formSteps,
       currentStep: 2
     });
   }, [setFormSteps]);
-  //handleFormSteps(2)
 
   return (
     <>
-    <br/>
-      {/* <h1>Step2</h1> */}
+      {children}
     </>
   );
 }
