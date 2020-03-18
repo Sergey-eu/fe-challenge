@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const DisplayFormikState = (props) =>
+const DisplayFormikState = (props) =>
   <div style={{ margin: '1rem 0' }}>
     <h3 style={{ fontFamily: 'monospace' }} />
     <pre
@@ -15,3 +15,5 @@ export const DisplayFormikState = (props) =>
       <br />
     </pre>
   </div>
+
+  export default DisplayFormikState;

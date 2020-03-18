@@ -1,34 +1,30 @@
 /* General stuff */
 import React, { useState, useEffect } from "react";
 import { Switch, Redirect, Route, Link, useHistory } from "react-router-dom";
-import { Formik, Field, Form } from 'formik';
+import { Formik, Form } from 'formik';
 
-/* Components imports */
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import "date-fns";
+/* Custom Hooks */
+import useLocalStorage from "../hooks/useLocalStorage";
 
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
+/* Data */
+import { schemaArray, allStepsSchema } from "../data/Form/validationConfig";
+import initialFormData from "../data/Form/initialFormData";
+import storeTypes from "../data/Form/storeTypes";
+import usersRoles from "../data/Form/usersRoles";
+import locationOptions from "../data/Form/locationOptions";
 
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import parse from 'autosuggest-highlight/parse';
-import match from 'autosuggest-highlight/match';
-
-/* Containers imports */
+/* Containers */
 import Step1 from "../containers/Form/Step1";
 import Step2 from "../containers/Form/Step2";
 import Step404 from "../containers/Form/Step404";
 
-/* Data imports */
-import storeTypes from "../data/Form/storeTypes";
-import usersRoles from "../data/Form/usersRoles";
-import initialFormData from "../data/Form/initialFormData";
-import { schemaArray, allStepsSchema } from "../data/Form/validationConfig";
-import suggestedUsersMockup from "../data/Form/suggestedUsers";
+/* Custom components */
+import Select from "../components/form/Select";
+import TextInput from '../components/form/TextInput';
+import AutocompleteInput from '../components/form/Autocomplete';
+import Button from '../components/form/Button';
+import Datepicker from '../components/form/Datepicker';
+import RadioButtons from '../components/form/RadioButtons';
 
 const NewUserPage = () => {
   const [newUser, setNewUser] = useState(initialFormData)
@@ -36,21 +32,32 @@ const NewUserPage = () => {
   const [formSteps, setFormSteps] = useState({
     currentStep: 1,
     maxSteps: 2,
-    isSubmitReady: false,
     isSubmitted: false
   });
+  const [isSubmitReady, setSubmitStatus] = useLocalStorage('isSubmitReady', false);
 
   const history = useHistory();
+
+  const handlePrevStep = () => {
+    let newStep = formSteps.currentStep - 1;
+    setFormSteps({
+      ...formSteps,
+      currentStep: newStep,
+      isSubmitted: false
+    })
+    return newStep;
+  }
 
   const handleNextStep = () => {
     if (!Boolean(document.querySelectorAll('.validation-message').length)) {
       if (formSteps.currentStep !== formSteps.maxSteps) {
         let newStep = formSteps.currentStep + 1;
+
+        setSubmitStatus(true);
         history.push(`/form/step${newStep}`);
         setFormSteps({
           ...formSteps,
-          currentStep: newStep,
-          isSubmitReady: true
+          currentStep: newStep
         })
         return newStep;
       } else {
@@ -64,36 +71,20 @@ const NewUserPage = () => {
     }
   }
 
-  const handlePrevStep = () => {
-    let newStep = formSteps.currentStep - 1;
-    setFormSteps({
-      ...formSteps,
-      currentStep: newStep,
-      isSubmitted: false
-    })
-    return newStep;
-  }
-
-  const handleUsersAutocomplete = async () => {
-
-    // http://randomuser.me responded with error 502 so suggestedUsersMockup was used
-    // fetch("https://randomuser.me/api/?results=50&nat=au&exc=login")
-    //   .then(response => response.json())
-    //   .then(parsedJSON => setSuggestedUsers(parsedJSON.result))
-    //   .catch(error => console.log(error))
-    setSuggestedUsers(suggestedUsersMockup);
-  }
-
-  const filterOptions = createFilterOptions({
-    matchFrom: 'start',
-    stringify: option => option.name.first
-  });
-
-  const handleInput = (e) => {
+  const handleFormControl = (e) => {
     setNewUser({
       ...newUser,
       [e.currentTarget.name]: e.currentTarget.value,
     })
+  }
+
+  const handleUsersAutocomplete = async () => {
+    fetch("https://randomuser.me/api/?results=50&nat=au&exc=login")
+      .then(response => response.json())
+      .then(parsedJSON => setSuggestedUsers(parsedJSON.results))
+      .catch(error => console.log(error))
+    // http://randomuser.me responded with error 502 so mockup was used
+    // setSuggestedUsers(suggestedUsersMockup);
   }
 
   const handleDateChange = (date) => {
@@ -102,18 +93,6 @@ const NewUserPage = () => {
       joinDate: date
     });
   };
-
-  // Data collector for option selected in Autocomplete
-  let firstSelectedName = "";
-  let lastSelectedName = "";
-  let lookup = "";
-  const handleOption = (option) => {
-    const fullName = typeof (option) === 'object' ? `${option.name.title} ${option.name.first} ${option.name.last}` : option;
-    firstSelectedName = typeof (option) === 'object' ? option.name.first : "";
-    lastSelectedName = typeof (option) === 'object' ? option.name.last : "";
-    lookup = typeof (option) === 'object' ? fullName : "";
-    return fullName;
-  }
 
   const handleFormSubmit = () => {
     let userData = newUser;
@@ -127,12 +106,12 @@ const NewUserPage = () => {
         "Content-Type": "application/json"
       }
     })
-      .then(response => { console.log(response) })
       .catch(error => { console.error(error) });
   }
 
   useEffect(() => {
     handleUsersAutocomplete();
+    setSubmitStatus(false)
   }, []);
 
   return (
@@ -151,171 +130,130 @@ const NewUserPage = () => {
             </Route>
 
             <Route exact path="/form/step1">
-              <Step1 formSteps={formSteps} setFormSteps={setFormSteps} />
 
-              <div className="mui-select">
-                <Field as="select"
-                  name="storeType"
-                  onChange={handleInput}
-                  value={newUser.storeType}
-                  className={`${props.errors.storeType ? 'mui--is-not-empty' : ''}`} >
-                  <option value="" disabled defaultValue>Choose an option</option>
-                  {storeTypes.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Field>
-                <label htmlFor="storeType">Store Type</label>
-                {props.errors.storeType ? <div className="mui--text-danger mui--text-caption validation-message">{props.errors.storeType}</div> : null}
-              </div>
+              <Step1 formSteps={formSteps} setFormSteps={setFormSteps} >
+                <Select
+                  name={"storeType"}
+                  label={"Store Type"}
+                  handleFormControl={handleFormControl}
+                  optionList={storeTypes}
+                  errors={props.errors.storeType}
+                  value={props.values.storeType}
+                />
+              </Step1>
 
               {newUser.storeType === "Metro" && (
-                <div className="mui-textfield mui-textfield--float-label">
-                  <Field type="text"
-                    name="storeTypeDetails"
-                    onChange={handleInput}
-                    value={newUser.storeTypeDetails} className={props.errors.storeTypeDetails ? 'mui--is-not-empty' : ''} />
-                  <label htmlFor="storeTypeDetails">Provide details</label>
-                  {props.errors.storeTypeDetails ? <div className="mui--text-danger mui--text-caption validation-message">{props.errors.storeTypeDetails}</div> : null}
-                </div>
+                <TextInput
+                  name="storeTypeDetails"
+                  label="Provide details"
+                  handleFormControl={handleFormControl}
+                  errors={props.errors.storeTypeDetails}
+                  value={props.values.storeTypeDetails}
+                />
               )}
 
-              <div className="mui-textfield mui-textfield--float-label">
-                <Autocomplete
-                  disableClearable
-                  name="userLookup"
-                  onChange={() => { setNewUser({ ...newUser, firstName: firstSelectedName, lastName: lastSelectedName, userLookup: lookup }); }}
-                  value={newUser.userLookup}
-                  className={props.errors.userLookup ? 'Mui-error' : ''}
-                  options={suggestedUsers || []}
-                  getOptionLabel={option => handleOption(option)}
-                  filterOptions={filterOptions}
-                  renderOption={(option, { inputValue }) => {
-                    const matches = match(option.name.first, inputValue);
-                    const parts = parse(option.name.first, matches);
-                    const lastName = option.name.last;
-                    const nameTitle = option.name.title;
-                    return (
-                      <div>
-                        <span>{nameTitle} </span>
-                        {parts.map((part, index) => (
-                          <span key={index} style={{ fontWeight: part.highlight ? 700 : 400 }}>
-                            {part.text}
-                          </span>
-                        ))}
-                        <span> {lastName}</span>
-                      </div>
-                    );
-                  }}
-                  renderInput={params => (
-                    <TextField
-                      fullWidth
-                      name="userLookup"
-                      label="User lookup"
-                      value={newUser.userLookup}
-                      {...params}
-                    />
-                  )}
-                />
-                {props.errors.userLookup ? <div className="mui--text-danger mui--text-caption validation-message">{props.errors.userLookup}</div> : null}
-              </div>
+              <AutocompleteInput
+                name="userLookup"
+                label="User lookup"
+                dataStorage={newUser}
+                options={suggestedUsers || []}
+                setNewUser={setNewUser}
+                handleFormControl={handleFormControl}
+                errors={props.errors.userLookup}
+                value={props.values.userLookup}
+              />
 
-              <div className='mui-textfield mui-textfield--float-label'>
-                <Field type="text"
-                  name="firstName"
-                  onChange={handleInput}
-                  value={newUser.firstName} className={props.errors.firstName ? 'mui--is-not-empty' : ''} />
-                <label htmlFor="firstName">First Name</label>
-                {props.errors.firstName ? <div className="mui--text-danger mui--text-caption validation-message">{props.errors.firstName}</div> : null}
-              </div>
+              <TextInput
+                name="firstName"
+                label="First Name"
+                dataStorage={newUser}
+                handleFormControl={handleFormControl}
+                errors={props.errors.firstName}
+                value={props.values.firstName}
+              />
 
-              <div className="mui-textfield mui-textfield--float-label">
-                <Field type="text"
-                  name="lastName"
-                  onChange={handleInput}
-                  value={newUser.lastName} className={props.errors.lastName ? 'mui--is-not-empty' : ''} />
-                <label htmlFor="lastName">Last Name</label>
-                {props.errors.lastName ? <div className="mui--text-danger mui--text-caption validation-message">{props.errors.lastName}</div> : null}
-              </div>
+              <TextInput
+                name="lastName"
+                label="Last Name"
+                dataStorage={newUser}
+                handleFormControl={handleFormControl}
+                errors={props.errors.lastName}
+                value={props.values.lastName}
+              />
 
-              <button type='button' onClick={() => { props.validateForm(); setTimeout(() => { handleNextStep() }) }} className="mui-btn mui-btn--primary mui--pull-right" >Next</button>
+              <Button
+                type={'button'}
+                text={'Next'}
+                onClick={() => { props.validateForm(); setTimeout(() => { handleNextStep() }) }}
+                className={'mui-btn mui-btn--primary mui--pull-right'}
+              />
             </Route>
 
             <Route exact path="/form/step2">
-              <Step2 formSteps={formSteps} setFormSteps={setFormSteps} />
+              {!isSubmitReady && <Redirect to="/form/step1" />}
 
-              <div className="mui-select">
-                <Field as="select"
-                  name="usersRole"
-                  onChange={handleInput}
-                  value={newUser.usersRole}>
-                  <option value="" disabled defaultValue>Choose an option</option>
-                  {usersRoles.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Field>
-                <label htmlFor="usersRole">What is the users role?</label>
-              </div>
+              <Step2 formSteps={formSteps} setFormSteps={setFormSteps}>
+                <Select
+                  name={"usersRole"}
+                  label={"What is the users role?"}
+                  defaultValue={'Choose an 2option'}
+                  optionList={usersRoles}
+                  handleFormControl={handleFormControl}
+                  errors={props.errors.usersRole}
+                  value={props.values.usersRole}
+                />
 
-              <div className="mui-picker">
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    fullWidth
-                    disableToolbar
-                    name="joinDate"
-                    onChange={handleDateChange}
-                    value={newUser.joinDate}
-                    className={props.errors.joinDate ? 'Mui-error' : ''}
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    label="When did the user first join?"
-                  />
-                </MuiPickersUtilsProvider>
-                {props.errors.joinDate ? <div className="mui--text-danger mui--text-caption validation-message">{props.errors.joinDate}</div> : null}
-              </div>
+                <Datepicker
+                  name="joinDate"
+                  onChange={handleDateChange}
+                  value={props.values.joinDate}
+                  format="MM/dd/yyyy"
+                  variant="inline"
+                  margin="normal"
+                  label="When did the user first join?"
+                  errors={props.errors.joinDate}
+                />
 
-              <div className="mui-radio">
-                <FormLabel component="legend">Is this person located in Victoria?</FormLabel>
-                <RadioGroup
+                <RadioButtons
+                  radioList={locationOptions}
                   name="isVictoriaLocation"
-                  onChange={handleInput}
-                  value={newUser.isVictoriaLocation}
-                  className={props.errors.isVictoriaLocation && 'error'}>
-                  <FormControlLabel value="Yes" control={<Radio color="primary" />} label="Yes" />
-                  <FormControlLabel value="No" control={<Radio color="primary" />} label="No" />
-                </RadioGroup>
-                {props.errors.isVictoriaLocation ? <div className="mui--text-danger mui--text-caption validation-message">{props.errors.isVictoriaLocation}</div> : null}
-              </div>
+                  label="Is this person located in Victoria?"
+                  handleFormControl={handleFormControl}
+                  value={props.values.isVictoriaLocation}
+                  errors={props.errors.isVictoriaLocation}
+                />
 
-              {newUser.isVictoriaLocation === "Yes" && (
-                <div className="mui-textfield mui-textfield--float-label">
-                  <Field type="text"
+                {newUser.isVictoriaLocation === "Yes" && (
+                  <TextInput
                     name="locationDetails"
-                    onChange={handleInput}
-                    value={newUser.locationDetails} className={props.errors.locationDetails ? 'mui--is-not-empty' : ''} />
-                  <label htmlFor="locationDetails">Where in Victoria?</label>
-                  {props.errors.locationDetails ? <div className="mui--text-danger mui--text-caption validation-message">{props.errors.locationDetails}</div> : null}
-                </div>
-              )}
+                    label="Where in Victoria?"
+                    handleFormControl={handleFormControl}
+                    errors={props.errors.locationDetails}
+                    value={props.values.locationDetails}
+                  />
+                )}
 
-              {formSteps.isSubmitted && <pre className="submit-message">
-                <code>Your form has been submitted.</code>
-              </pre>}
+                {formSteps.isSubmitted && <pre className="submit-message">
+                  <code>Your form has been submitted.</code>
+                </pre>}
 
-              <Link to="/form/step1" onClick={handlePrevStep} className="mui-btn mui-btn--dark">Back </Link>
-              <button type='button' 
-                disabled={formSteps.isSubmitted || !formSteps.isSubmitReady ? true : false}
-                onClick={() => { props.validateForm(); setTimeout(() => { handleNextStep() }) }}
-                className="mui-btn mui-btn--primary mui--pull-right">submit</button>
+                <Link to="/form/step1" onClick={handlePrevStep} className="mui-btn mui-btn--dark">Back </Link>
+
+                <Button
+                  type={'button'}
+                  text={'Submit'}
+                  disabled={formSteps.isSubmitted || !isSubmitReady ? true : false}
+                  onClick={() => { props.validateForm(); setTimeout(() => { handleNextStep() }) }}
+                  className={'mui-btn mui-btn--primary mui--pull-right'}
+                />
+              </Step2>
+
             </Route>
-            
+
             <Route>
               <Step404 />
             </Route>
+
           </ Switch>
         </Form>
       )}
