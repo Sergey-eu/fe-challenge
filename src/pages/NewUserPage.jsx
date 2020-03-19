@@ -159,7 +159,7 @@ const NewUserPage = () => {
                   handleFormControl={handleFormControl}
                   optionList={storeTypes}
                   errors={props.errors.storeType}
-                  value={newUser.storeType}
+                  value={props.values.storeType}
                 />
 
                 {newUser.storeType === 'Metro' && (
