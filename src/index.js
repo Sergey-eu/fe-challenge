@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import './scss/main.scss';
-import NewUserPage from "./pages/NewUserPage";
-import HomePage from "./pages/HomePage";
+import NewUserPage from './pages/NewUserPage';
+import HomePage from './pages/HomePage';
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <div className="mui-container">
-          <div className="mui-row">
+        <div className='mui-container'>
+          <div className='mui-row'>
             <Switch>
 
-              <Route exact path="/">
+              <Route exact path='/'>
                 <HomePage />
               </Route>
 
-              <Route path="/form">
+              <Route path='/form'>
                 <NewUserPage />
               </Route>
               
@@ -30,4 +30,4 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById("root"));
+render(<App />, document.getElementById('root'));

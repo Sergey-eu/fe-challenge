@@ -1,25 +1,25 @@
 /* General stuff */
-import React, { useState, useEffect } from "react";
-import { Switch, Redirect, Route, Link, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Switch, Redirect, Route, Link, useHistory } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 
 /* Custom Hooks */
-import useLocalStorage from "../hooks/useLocalStorage";
+import useLocalStorage from '../hooks/useLocalStorage';
 
 /* Data */
-import { schemaArray, allStepsSchema } from "../data/Form/validationConfig";
-import initialFormData from "../data/Form/initialFormData";
-import storeTypes from "../data/Form/storeTypes";
-import usersRoles from "../data/Form/usersRoles";
-import locationOptions from "../data/Form/locationOptions";
+import { schemaArray, allStepsSchema } from '../data/Form/validationConfig';
+import initialFormData from '../data/Form/initialFormData';
+import storeTypes from '../data/Form/storeTypes';
+import usersRoles from '../data/Form/usersRoles';
+import locationOptions from '../data/Form/locationOptions';
 
 /* Containers */
-import Step1 from "../containers/Form/Step1";
-import Step2 from "../containers/Form/Step2";
-import Step404 from "../containers/Form/Step404";
+import Step1 from '../containers/Form/Step1';
+import Step2 from '../containers/Form/Step2';
+import Step404 from '../containers/Form/Step404';
 
 /* Custom components */
-import Select from "../components/form/Select";
+import Select from '../components/form/Select';
 import TextInput from '../components/form/TextInput';
 import AutocompleteInput from '../components/form/Autocomplete';
 import Button from '../components/form/Button';
@@ -79,7 +79,7 @@ const NewUserPage = () => {
   }
 
   const handleUsersAutocomplete = async () => {
-    fetch("https://randomuser.me/api/?results=50&nat=au&exc=login")
+    fetch('https://randomuser.me/api/?results=50&nat=au&exc=login')
       .then(response => response.json())
       .then(parsedJSON => setSuggestedUsers(parsedJSON.results))
       .catch(error => console.log(error))
@@ -89,16 +89,16 @@ const NewUserPage = () => {
 
   // Data collector for reqired keys from selected option
   let selectedData = {
-    firstSelectedName: "",
-    lastSelectedName: "",
-    lookup: ""
+    firstSelectedName: '',
+    lastSelectedName: '',
+    lookup: ''
   }
 
   const handleOption = (option) => {
     const fullName = typeof (option) === 'object' ? `${option.name.title} ${option.name.first} ${option.name.last}` : option;
-    selectedData.firstSelectedName = typeof (option) === 'object' ? option.name.first : "";
-    selectedData.lastSelectedName = typeof (option) === 'object' ? option.name.last : "";
-    selectedData.lookup = typeof (option) === 'object' ? fullName : "";
+    selectedData.firstSelectedName = typeof (option) === 'object' ? option.name.first : '';
+    selectedData.lastSelectedName = typeof (option) === 'object' ? option.name.last : '';
+    selectedData.lookup = typeof (option) === 'object' ? fullName : '';
     return fullName;
   }
 
@@ -117,13 +117,13 @@ const NewUserPage = () => {
   const handleFormSubmit = () => {
     let userData = newUser;
 
-    fetch("https://webhook.site/76c989af-0b79-419d-ab0e-508ac1b93b44", {
-      method: "POST",
-      mode: "no-cors",
+    fetch('https://webhook.site/76c989af-0b79-419d-ab0e-508ac1b93b44', {
+      method: 'POST',
+      mode: 'no-cors',
       body: JSON.stringify(userData),
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       }
     })
       .catch(error => { console.error(error) });
@@ -143,18 +143,18 @@ const NewUserPage = () => {
       validationSchema={formSteps.currentStep === formSteps.maxSteps ? allStepsSchema : schemaArray[formSteps.currentStep - 1]}>
 
       {(props) => (
-        <Form className="mui-form mui-panel mui-col-md-6 mui-col-md-offset-3 mui-page-title" >
+        <Form className='mui-form mui-panel mui-col-md-6 mui-col-md-offset-3 mui-page-title' >
           <Switch>
-            <Route exact path="/form">
-              <Redirect to="/form/step1" />
+            <Route exact path='/form'>
+              <Redirect to='/form/step1' />
             </Route>
 
-            <Route exact path="/form/step1">
+            <Route exact path='/form/step1'>
 
               <Step1 formSteps={formSteps} setFormSteps={setFormSteps} >
                 <Select
-                  name={"storeType"}
-                  label={"Store Type"}
+                  name={'storeType'}
+                  label={'Store Type'}
                   handleFormControl={handleFormControl}
                   optionList={storeTypes}
                   errors={props.errors.storeType}
@@ -162,10 +162,10 @@ const NewUserPage = () => {
                 />
               </Step1>
 
-              {newUser.storeType === "Metro" && (
+              {newUser.storeType === 'Metro' && (
                 <TextInput
-                  name="storeTypeDetails"
-                  label="Provide details"
+                  name={'storeTypeDetails'}
+                  label={'Provide details'}
                   handleFormControl={handleFormControl}
                   errors={props.errors.storeTypeDetails}
                   value={props.values.storeTypeDetails}
@@ -173,8 +173,8 @@ const NewUserPage = () => {
               )}
 
               <AutocompleteInput
-                name="userLookup"
-                label="User lookup"
+                name={'userLookup'}
+                label={'User lookup'}
                 selectedData={selectedData}
                 onChange={() => { setNewUser({ ...newUser, firstName: selectedData.firstSelectedName, lastName: selectedData.lastSelectedName, userLookup: selectedData.lookup }); }}
                 options={suggestedUsers || []}
@@ -186,8 +186,8 @@ const NewUserPage = () => {
               />
 
               <TextInput
-                name="firstName"
-                label="First Name"
+                name={'firstName'}
+                label={'First Name'}
                 dataStorage={newUser}
                 handleFormControl={handleFormControl}
                 errors={props.errors.firstName}
@@ -195,8 +195,8 @@ const NewUserPage = () => {
               />
 
               <TextInput
-                name="lastName"
-                label="Last Name"
+                name={'lastName'}
+                label={'Last Name'}
                 dataStorage={newUser}
                 handleFormControl={handleFormControl}
                 errors={props.errors.lastName}
@@ -211,13 +211,13 @@ const NewUserPage = () => {
               />
             </Route>
 
-            <Route exact path="/form/step2">
-              {!isSubmitReady && <Redirect to="/form/step1" />}
+            <Route exact path='/form/step2'>
+              {!isSubmitReady && <Redirect to='/form/step1' />}
 
               <Step2 formSteps={formSteps} setFormSteps={setFormSteps}>
                 <Select
-                  name={"usersRole"}
-                  label={"What is the users role?"}
+                  name={'usersRole'}
+                  label={'What is the users role?'}
                   defaultValue={'Choose an 2option'}
                   optionList={usersRoles}
                   handleFormControl={handleFormControl}
@@ -226,40 +226,40 @@ const NewUserPage = () => {
                 />
 
                 <Datepicker
-                  name="joinDate"
+                  name='joinDate'
                   onChange={handleDateChange}
                   value={props.values.joinDate}
-                  format="MM/dd/yyyy"
-                  variant="inline"
-                  margin="normal"
-                  label="When did the user first join?"
+                  format='MM/dd/yyyy'
+                  variant='inline'
+                  margin='normal'
+                  label='When did the user first join?'
                   errors={props.errors.joinDate}
                 />
 
                 <RadioButtons
                   radioList={locationOptions}
-                  name="isVictoriaLocation"
-                  label="Is this person located in Victoria?"
+                  name='isVictoriaLocation'
+                  label='Is this person located in Victoria?'
                   handleFormControl={handleFormControl}
                   value={props.values.isVictoriaLocation}
                   errors={props.errors.isVictoriaLocation}
                 />
 
-                {newUser.isVictoriaLocation === "Yes" && (
+                {newUser.isVictoriaLocation === 'Yes' && (
                   <TextInput
-                    name="locationDetails"
-                    label="Where in Victoria?"
+                    name='locationDetails'
+                    label='Where in Victoria?'
                     handleFormControl={handleFormControl}
                     errors={props.errors.locationDetails}
                     value={props.values.locationDetails}
                   />
                 )}
 
-                {formSteps.isSubmitted && <pre className="submit-message">
-                  <code>Your form has been submitted.</code>
+                {formSteps.isSubmitted && <pre className='submit-message'>
+                  <code>Your form has been submitted</code>
                 </pre>}
 
-                <Link to="/form/step1" onClick={handlePrevStep} className="mui-btn mui-btn--dark">Back </Link>
+                <Link to='/form/step1' onClick={handlePrevStep} className='mui-btn mui-btn--dark'>Back </Link>
 
                 <Button
                   type={'button'}

@@ -22,12 +22,13 @@
     "yup": "^0.28.3"
   },
   "devDependencies": {
+    "cypress": "^4.2.0",
     "node-sass": "^4.13.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "cypress open",
     "eject": "react-scripts eject"
   },
   "browserslist": {

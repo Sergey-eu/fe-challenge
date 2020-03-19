@@ -1,4 +1,4 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
 const step1Schema = Yup.object().shape({
   storeType: Yup.string()
