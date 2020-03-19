@@ -11,40 +11,24 @@ const AutocompleteInput = (props) => {
     name: name,
     label: label,
     value: value,
-    dataStorage: dataStorage,
+    onChange: onChange,
     options: options,
+    handleOption: handleOption,
+    filterOptions: filterOptions,
     errors: errors,
     className: className
   } = props;
-
-  // Data collector for reqired keys from selected option
-  let firstSelectedName = "";
-  let lastSelectedName = "";
-  let lookup = "";
-
-  const handleOption = (option) => {
-    const fullName = typeof (option) === 'object' ? `${option.name.title} ${option.name.first} ${option.name.last}` : option;
-    firstSelectedName = typeof (option) === 'object' ? option.name.first : "";
-    lastSelectedName = typeof (option) === 'object' ? option.name.last : "";
-    lookup = typeof (option) === 'object' ? fullName : "";
-    return fullName;
-  }
-
-  const filterOptions = createFilterOptions({
-    matchFrom: 'start',
-    stringify: option => option.name.first
-  });
 
   return (
     <div className={`mui-textfield mui-textfield--float-label ${className}`}>
       <Autocomplete
         name={name}
-        onChange={() => { props.setNewUser({ ...dataStorage, firstName: firstSelectedName, lastName: lastSelectedName, userLookup: lookup }); }}
+        onChange={onChange}
         value={value}
         className={errors ? 'Mui-error' : ''}
         options={options}
         getOptionLabel={option => handleOption(option)}
-        filterOptions={filterOptions}
+        filterOptions={createFilterOptions(filterOptions)}
         renderOption={(option, { inputValue }) => {
           const matches = match(option.name.first, inputValue);
           const parts = parse(option.name.first, matches);
