@@ -7,7 +7,7 @@ body {
   background-color: #e6e6e6;
 }
 .mui-panel {
-  padding-top: 25px;
+  padding-top: 20px;
 }
 .mui-textfield.mui-textfield--float-label > label {
   transition: all 0.15s ease-out;
@@ -28,6 +28,8 @@ body {
 // Autocomplete
 .mui-textfield.mui-textfield--float-label,
 .mui-select {
+  width: 100%;
+  
   .mui--is-not-empty {
     border-width: 2px;
     border-color: $dander;
@@ -92,6 +94,24 @@ body {
 .MuiAutocomplete-popper li {
   font-size: 16px !important;
 }
+// Select
+.mui-select.MuiFormControl-root {
+  padding-top: 15px;
+  margin-bottom: 20px;
+
+  .MuiFormLabel-root {
+    top: 0 !important;
+    overflow: hidden;
+  }
+
+  .MuiSelect-select:focus {
+    background-color: transparent;
+  }
+
+  .MuiSvgIcon-root {
+    display: none;
+  }
+}
 
 // Radio
 .mui-radio {
@@ -104,15 +124,19 @@ body {
       }
     }
   }
+
   .MuiRadio-root.Mui-checked {
     color: $primary;
   }
+
   .MuiTypography-root {
     font-size: 16px;
   }
+
   .MuiFormControlLabel-root {
     margin-bottom: 0;
   }
+
   .MuiFormLabel-root {
     font-size: 12px !important;
     padding-top: 15px;
@@ -122,6 +146,7 @@ body {
       padding-top: 0;
     }
   }
+
   .MuiSvgIcon-root {
     width: 20px;
     height: 20px;
@@ -133,29 +158,37 @@ body {
   .MuiIconButton-root {
     margin-right: -13px;
   }
+
   .MuiInputBase-root {
     background-image: none;
   }
-  .MuiInputLabel-shrink {
-    //font-size: 14px!important;
-  }
+  
   .MuiFormLabel-root {
     color: $grey !important;
   }
+
+  .MuiFormControl-marginNormal {
+    margin-top: 25px !important;
+  }
 }
+
 .MuiTypography-caption {
   font-size: 16px !important;
 }
+
 .MuiTypography-body1 {
   font-size: 15px !important;
 }
+
 .MuiTypography-body2 {
   font-size: 14px !important;
 }
+
 .MuiPopover-paper .MuiSvgIcon-root {
   width: 25px;
   height: 25px;
 }
+
 .MuiPickersDay-daySelected {
   background-color: $primary !important;
 }

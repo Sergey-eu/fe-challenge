@@ -8,19 +8,19 @@ import match from 'autosuggest-highlight/match';
 const AutocompleteInput = (props) => {
 
   const {
-    name: name,
-    label: label,
-    value: value,
-    onChange: onChange,
-    options: options,
-    handleOption: handleOption,
-    filterOptions: filterOptions,
-    errors: errors,
-    className: className
+    name,
+    label,
+    value,
+    onChange,
+    options,
+    handleOption,
+    filterOptions,
+    errors,
+    className
   } = props;
 
   return (
-    <div className={`mui-textfield mui-textfield--float-label ${className}`}>
+    <div className={`mui-textfield mui-textfield--float-label ${className || ''}`}>
       <Autocomplete
         name={name}
         onChange={onChange}

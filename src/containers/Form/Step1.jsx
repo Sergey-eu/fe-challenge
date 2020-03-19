@@ -3,9 +3,9 @@ import React, { useEffect } from 'react';
 const Step1 = (props) => {
 
   const {
-    setFormSteps: setFormSteps, 
-    formSteps: formSteps, 
-    children: children
+    setFormSteps, 
+    formSteps, 
+    children
   } = props;
 
   useEffect(() => {

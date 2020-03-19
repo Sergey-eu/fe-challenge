@@ -4,16 +4,16 @@ import { Field } from 'formik';
 const TextInput = (props) => {
 
   const {
-    name: name,
-    value: value,
-    label: label,
-    handleFormControl: handleFormControl,
-    errors: errors,
-    className: className
+    name,
+    value,
+    label,
+    handleFormControl,
+    errors,
+    className
   } = props;
 
   return (
-    <div className={`mui-textfield mui-textfield--float-label ${className}`}>
+    <div className={`mui-textfield mui-textfield--float-label ${className || ''}`}>
       <Field type='text'
         name={name}
         value={value}

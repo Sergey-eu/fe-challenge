@@ -7,19 +7,19 @@ import 'date-fns';
 const Datepicker = (props) => {
 
   const {
-    name: name,
-    onChange: onChange,
-    value: value,
-    format:format,
-    variant:variant,
-    margin:margin,
-    label:label,
-    errors: errors,
-    className: className
+    name,
+    onChange,
+    value,
+    format,
+    variant,
+    margin,
+    label,
+    errors,
+    className
   } = props;
 
   return (
-    <div className={`mui-picker ${className}`}>
+    <div className={`mui-picker ${className || ''}`}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           fullWidth
