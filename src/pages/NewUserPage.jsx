@@ -87,6 +87,26 @@ const NewUserPage = () => {
     // setSuggestedUsers(suggestedUsersMockup);
   }
 
+  // Data collector for reqired keys from selected option
+  let selectedData = {
+    firstSelectedName: "",
+    lastSelectedName: "",
+    lookup: ""
+  }
+
+  const handleOption = (option) => {
+    const fullName = typeof (option) === 'object' ? `${option.name.title} ${option.name.first} ${option.name.last}` : option;
+    selectedData.firstSelectedName = typeof (option) === 'object' ? option.name.first : "";
+    selectedData.lastSelectedName = typeof (option) === 'object' ? option.name.last : "";
+    selectedData.lookup = typeof (option) === 'object' ? fullName : "";
+    return fullName;
+  }
+
+  const filterOptions = {
+    matchFrom: 'start',
+    stringify: option => option.name.first
+  };
+
   const handleDateChange = (date) => {
     setNewUser({
       ...newUser,
@@ -155,10 +175,12 @@ const NewUserPage = () => {
               <AutocompleteInput
                 name="userLookup"
                 label="User lookup"
-                dataStorage={newUser}
+                selectedData={selectedData}
+                onChange={() => { setNewUser({ ...newUser, firstName: selectedData.firstSelectedName, lastName: selectedData.lastSelectedName, userLookup: selectedData.lookup }); }}
                 options={suggestedUsers || []}
-                setNewUser={setNewUser}
                 handleFormControl={handleFormControl}
+                handleOption={handleOption}
+                filterOptions={filterOptions}
                 errors={props.errors.userLookup}
                 value={props.values.userLookup}
               />
