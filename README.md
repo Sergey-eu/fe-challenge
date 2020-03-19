@@ -2,7 +2,7 @@
 ### Built with ReactJS v16.3
 [![N|Solid](https://blobs.gitbook.com/spaces%2F-LC0OOaYNhLAKEG18CVO%2Favatar.png?generation=1525813064181835&alt=media)](https://reactjs.org/)
 #### Features
-According to the requirements, the entered data must be saved when the user navigates between pages. 
+According to the requirements, the entered data will be saved when the user navigates between pages.. 
 
 Since the “Clear button" was not required, saving data after refreshing the page can be inconvenient. Therefore, data is not saved anywhere except for the state
 
@@ -22,8 +22,7 @@ If the user goes to `localhost:3000/form/{any-text}`, he will receive an error p
 * [Material-UI](https://github.com/mui-org/material-ui ) - ReactJS material components
 * [MUI](https://github.com/mui-org/material-ui ) - Pure CSS material components
 
-The tasks set do not require state managers
-Simple API does not require special libraries
+The tasks set do not require state managers and the simple API does not require special libraries
 
 #### Installation 
 Application requires Node v10+ to run. 
@@ -34,7 +33,14 @@ $ npm start
 ```
 
 #### Notes 
-Form data submitted to: [webhook.site](https://webhook.site/76c989af-0b79-419d-ab0e-508ac1b93b44 )
-Existing users fetched from: [randomuser.me](https://randomuser.me/api/?results=50&nat=au&exc=login )
+The data submitted by the form can be checked at this URL: [webhook.site](https://webhook.site/76c989af-0b79-419d-ab0e-508ac1b93b44 )
+
+Existing users for Automplete on the first step fetched from: [randomuser.me](https://randomuser.me/api/?results=50&nat=au&exc=login )
+
+> A [randomuser.me](https://randomuser.me/api/?results=50&nat=au&exc=login ) was unavailable a while ago. 
+> Therefore, just uncomment the code in the `handleAutocomplete` function 
+> to work with the application without access to the user API.
+
 The project contains a folder **data** with available configurations and data.
-Frontend Unit test are not included into this progect.
+
+Unfortunately, frontend Unit test are not included into this progect.
