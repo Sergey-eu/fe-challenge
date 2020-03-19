@@ -1,38 +1,39 @@
 import React from 'react';
-import { Field } from 'formik';
 
-const Select = (props) => {
-  
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
+const Seelct = (props) => {
+
   const {
-    name: name, 
-    label: label,
-    value: value,
-    handleFormControl: handleFormControl, 
-    placeholder: placeholder,
-    optionList: optionList,
-    errors: errors,
-    className: className
+    name,
+    label,
+    handleFormControl,
+    optionList,
+    errors,
+    value,
+    className
   } = props;
 
   return (
-    <div className={`mui-select ${className}`}>
-      <Field as='select'
+    <FormControl className={`mui-select ${className || ''} ${errors && 'Mui-error'} `}>
+      <InputLabel className={name}>{label}</InputLabel>
+      <Select
+        className={errors ? 'Mui-error' : ''}
+        labelId={`${name}-label`}
+        value={value}
         name={name}
         onChange={handleFormControl}
-        value={value}
-        className={`${errors ? 'mui--is-not-empty' : ''}`} >
-        <option value='' defaultValue>{placeholder ||  'Choose an option'}</option>
+      >
         {optionList.map(option => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
+          <MenuItem key={option.value} value={option.value}>{option.label}</MenuItem>
         ))}
-      </Field>
-        <label htmlFor={name}>{label}</label>
+      </Select>
       {errors ? <div className='mui--text-danger mui--text-caption validation-message'>{errors}</div> : null}
-      
-    </div>
+    </FormControl>
   )
 }
 
-export default Select;
+export default Seelct;

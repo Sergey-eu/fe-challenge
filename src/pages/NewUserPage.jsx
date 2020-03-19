@@ -74,11 +74,11 @@ const NewUserPage = () => {
   const handleFormControl = (e) => {
     setNewUser({
       ...newUser,
-      [e.currentTarget.name]: e.currentTarget.value,
+      [e.target.name]: e.target.value,
     })
   }
 
-  const handleUsersAutocomplete = async () => {
+  const handleAutocomplete = async () => {
     fetch('https://randomuser.me/api/?results=50&nat=au&exc=login')
       .then(response => response.json())
       .then(parsedJSON => setSuggestedUsers(parsedJSON.results))
@@ -130,7 +130,7 @@ const NewUserPage = () => {
   }
 
   useEffect(() => {
-    handleUsersAutocomplete();
+    handleAutocomplete();
     setSubmitStatus(false)
   }, []);
 
@@ -152,6 +152,7 @@ const NewUserPage = () => {
             <Route exact path='/form/step1'>
 
               <Step1 formSteps={formSteps} setFormSteps={setFormSteps} >
+
                 <Select
                   name={'storeType'}
                   label={'Store Type'}
@@ -160,55 +161,56 @@ const NewUserPage = () => {
                   errors={props.errors.storeType}
                   value={props.values.storeType}
                 />
-              </Step1>
 
-              {newUser.storeType === 'Metro' && (
-                <TextInput
-                  name={'storeTypeDetails'}
-                  label={'Provide details'}
+                {newUser.storeType === 'Metro' && (
+                  <TextInput
+                    name={'storeTypeDetails'}
+                    label={'Provide details'}
+                    handleFormControl={handleFormControl}
+                    errors={props.errors.storeTypeDetails}
+                    value={props.values.storeTypeDetails}
+                  />
+                )}
+
+                <AutocompleteInput
+                  name={'userLookup'}
+                  label={'User lookup'}
+                  selectedData={selectedData}
+                  onChange={() => { setNewUser({ ...newUser, firstName: selectedData.firstSelectedName, lastName: selectedData.lastSelectedName, userLookup: selectedData.lookup }); }}
+                  options={suggestedUsers || []}
                   handleFormControl={handleFormControl}
-                  errors={props.errors.storeTypeDetails}
-                  value={props.values.storeTypeDetails}
+                  handleOption={handleOption}
+                  filterOptions={filterOptions}
+                  errors={props.errors.userLookup}
+                  value={props.values.userLookup}
                 />
-              )}
 
-              <AutocompleteInput
-                name={'userLookup'}
-                label={'User lookup'}
-                selectedData={selectedData}
-                onChange={() => { setNewUser({ ...newUser, firstName: selectedData.firstSelectedName, lastName: selectedData.lastSelectedName, userLookup: selectedData.lookup }); }}
-                options={suggestedUsers || []}
-                handleFormControl={handleFormControl}
-                handleOption={handleOption}
-                filterOptions={filterOptions}
-                errors={props.errors.userLookup}
-                value={props.values.userLookup}
-              />
+                <TextInput
+                  name={'firstName'}
+                  label={'First Name'}
+                  dataStorage={newUser}
+                  handleFormControl={handleFormControl}
+                  errors={props.errors.firstName}
+                  value={props.values.firstName}
+                />
 
-              <TextInput
-                name={'firstName'}
-                label={'First Name'}
-                dataStorage={newUser}
-                handleFormControl={handleFormControl}
-                errors={props.errors.firstName}
-                value={props.values.firstName}
-              />
+                <TextInput
+                  name={'lastName'}
+                  label={'Last Name'}
+                  dataStorage={newUser}
+                  handleFormControl={handleFormControl}
+                  errors={props.errors.lastName}
+                  value={props.values.lastName}
+                />
 
-              <TextInput
-                name={'lastName'}
-                label={'Last Name'}
-                dataStorage={newUser}
-                handleFormControl={handleFormControl}
-                errors={props.errors.lastName}
-                value={props.values.lastName}
-              />
+                <Button
+                  type={'button'}
+                  text={'Next'}
+                  onClick={() => { props.validateForm(); setTimeout(() => { handleNextStep() }) }}
+                  className={'mui-btn mui-btn--primary mui--pull-right'}
+                />
 
-              <Button
-                type={'button'}
-                text={'Next'}
-                onClick={() => { props.validateForm(); setTimeout(() => { handleNextStep() }) }}
-                className={'mui-btn mui-btn--primary mui--pull-right'}
-              />
+              </Step1>
             </Route>
 
             <Route exact path='/form/step2'>
@@ -218,7 +220,6 @@ const NewUserPage = () => {
                 <Select
                   name={'usersRole'}
                   label={'What is the users role?'}
-                  defaultValue={'Choose an 2option'}
                   optionList={usersRoles}
                   handleFormControl={handleFormControl}
                   errors={props.errors.usersRole}

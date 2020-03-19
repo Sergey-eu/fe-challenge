@@ -8,17 +8,17 @@ import FormLabel from '@material-ui/core/FormLabel';
 const RadioButtons = (props) => {
 
   const {
-    radioList: radioList,
-    name: name,
-    label: label,
-    handleFormControl: handleFormControl,
-    value: value,
-    errors: errors,
-    className: className
+    radioList,
+    name,
+    label,
+    handleFormControl,
+    value,
+    errors,
+    className
   } = props;
 
   return (
-    <div className={`mui-radio ${className}`}>
+    <div className={`mui-radio ${className || ''}`}>
       <FormLabel component='legend'>{label}</FormLabel>
       <RadioGroup
         name={name}
