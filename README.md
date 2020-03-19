@@ -3,12 +3,16 @@
 [![N|Solid](https://blobs.gitbook.com/spaces%2F-LC0OOaYNhLAKEG18CVO%2Favatar.png?generation=1525813064181835&alt=media)](https://reactjs.org/)
 ##### Features
 According to the requirements, the entered data must be saved when the user navigates between pages. 
+
 Since the “Clear button" was not required, saving data after refreshing the page can be inconvenient. Therefore, data is not saved anywhere except for the state
 
 The application consists of a home page and two form pages.
+
 The first step is available at the following URL: `localhost:3000/form/step1`.
 If the user goes to `localhost:3000/form`, he will be redirected to `localhost:3000/form/step1`.
+
 If the user goes to `localhost:3000/form/step2` without completed step 1, he will be redirected to `localhost:3000/form/step1`.
+
 If the user goes to `localhost:3000/form/{any-text}`, he will receive an error page with links to the first step and home page.
 
 ##### Tech
