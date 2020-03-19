@@ -38,6 +38,7 @@ The data submitted by the form can be checked at this URL: [webhook.site](https:
 Existing users for Automplete on the first step fetched from: [randomuser.me](https://randomuser.me/api/?results=50&nat=au&exc=login )
 
 > A [randomuser.me](https://randomuser.me/api/?results=50&nat=au&exc=login ) was unavailable a while ago. 
+>
 > Therefore, just uncomment the code in the `handleAutocomplete` function 
 > to work with the application without access to the user API.
 
