@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import "date-fns";
+import 'date-fns';
 
 const Datepicker = (props) => {
 
@@ -34,7 +34,7 @@ const Datepicker = (props) => {
           label={label}
         />
       </MuiPickersUtilsProvider>
-      {errors ? <div className="mui--text-danger mui--text-caption validation-message">{errors}</div> : null}
+      {errors ? <div className='mui--text-danger mui--text-caption validation-message'>{errors}</div> : null}
     </div>
 
   )

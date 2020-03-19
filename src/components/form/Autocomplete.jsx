@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -55,7 +55,7 @@ const AutocompleteInput = (props) => {
           />
         )}
       />
-      {errors ? <div className="mui--text-danger mui--text-caption validation-message">{errors}</div> : null}
+      {errors ? <div className='mui--text-danger mui--text-caption validation-message'>{errors}</div> : null}
     </div>
   )
 }

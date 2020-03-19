@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Field } from 'formik';
 
 const TextInput = (props) => {
@@ -14,13 +14,13 @@ const TextInput = (props) => {
 
   return (
     <div className={`mui-textfield mui-textfield--float-label ${className}`}>
-      <Field type="text"
+      <Field type='text'
         name={name}
         value={value}
         onChange={handleFormControl}
         className={errors ? 'mui--is-not-empty' : ''} />
-      <label htmlFor="storeTypeDetails">{label}</label>
-      {errors ? <div className="mui--text-danger mui--text-caption validation-message">{errors}</div> : null}
+      <label htmlFor='storeTypeDetails'>{label}</label>
+      {errors ? <div className='mui--text-danger mui--text-caption validation-message'>{errors}</div> : null}
     </div>
   )
 }
