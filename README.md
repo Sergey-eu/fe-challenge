@@ -20,7 +20,7 @@ Create a form with the following steps:
 | -------- | ------------------------------------ | ---------- |---------- |---------------------- |------------ |
 | Q1       | What is the users role ?             | dropdown   | No        | Dev, Manager, Student |             | 
 | Q2       | When did the user first join ?       | datefield  | YES       |                       |             |
-| Q3       | Is this person located in Victoria ? | radio      | YES       | Yes, No               | This field is populated from the sele above |
+| Q3       | Is this person located in Victoria ? | radio      | YES       | Yes, No               |             |
 | Q3a      | Where in Victoria ?                  | textfield  | YES       |                       | This field is shown if Q3 was "YES" |
 
 #### Features
