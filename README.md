@@ -44,4 +44,4 @@ Existing users for Automplete on the first step fetched from: [randomuser.me](ht
 
 The project contains a folder **data** with available configurations and data.
 
-Unfortunately, frontend Unit test are not included into this progect.
+Frontend Unit test created via Cypress.
