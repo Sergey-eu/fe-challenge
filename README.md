@@ -1,4 +1,4 @@
-# Plexus Frontend Challenge
+# Frontend Challenge
 ### Built with ReactJS v16.3
 [![N|Solid](https://blobs.gitbook.com/spaces%2F-LC0OOaYNhLAKEG18CVO%2Favatar.png?generation=1525813064181835&alt=media)](https://reactjs.org/)
 #### Features
