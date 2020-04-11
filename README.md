@@ -3,16 +3,25 @@
 [![N|Solid](https://blobs.gitbook.com/spaces%2F-LC0OOaYNhLAKEG18CVO%2Favatar.png?generation=1525813064181835&alt=media)](https://reactjs.org/)
 #### Goal
 Create a form with the following steps:
+
 **1**
+
 | Question | Label           | Field Type   | Mandatory | Input                       | Conditions                           |
 | -------- | --------------- | ------------ |---------- |---------------------------- |------------------------------------- |
-| Q1       | Store Type      | dropdown     | YES       | Mall, Metro, Arcade, Centre | This field is shown if the Q1 above is "Metro" |
-| Q1a      | Provide details | textfield    | YES       |                             |                                      |
+| Q1       | Store Type      | dropdown     | YES       | Mall, Metro, Arcade, Centre |  |
+| Q1a      | Provide details | textfield    | YES       |                             | This field is shown if the Q1 above is "Metro" | 
 | Q2       | User lookup     | autocomplete | YES       |                             | This field should send a request to https://randomuser.me/api/?results=50&nat=au&exc=login as the user types and populate an autocomplete widget. The widget should highlight matches based the name field.|
 | Q2a      | First Name      | textfield    | YES       |                             | This field is populated from the selection above |
 | Q2b      | Last Name       | textfield    | YES       |                             | This field is populated from the selection above |
 		 				 
 **2**
+
+| Question | Label                                | Field Type | Mandatory | Input                 | Conditions  |
+| -------- | ------------------------------------ | ---------- |---------- |---------------------- |------------ |
+| Q1       | What is the users role ?             | dropdown   | No        | Dev, Manager, Student |             | 
+| Q2       | When did the user first join ?       | datefield  | YES       |                       |             |
+| Q3       | Is this person located in Victoria ? | radio      | YES       | Yes, No               | This field is populated from the sele above |
+| Q3a      | Where in Victoria ?                  | textfield  | YES       |                       | This field is shown if Q3 was "YES" |
 
 #### Features
 According to the requirements, the entered data will be saved when the user navigates between pages.. 
